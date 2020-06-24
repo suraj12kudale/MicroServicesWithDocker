@@ -1,0 +1,30 @@
+version:'3'
+
+service:
+  payroll-mysql:
+    image: mysql
+    ports:
+      - "13306:3306"
+    environment:
+      - MYSQL_ROOT-PASSWORD=root
+    volumes:
+      - e:/payrolldb:/var/lib/mysql
+      - ./dbscripts:/book.sql
+      
+    eureka-discovery-server:
+      image: discovery-server
+      build: eureka-discovery-server/.
+      ports:
+        - "8761:8761"
+      depends_on:
+        - payroll-mysql
+        
+    account:
+      image: acount-app
+      build: account/.
+      ports:
+        - "8091:8091"
+      depends_on:
+        - payroll-mysql
+      links:
+        - payroll-mysql

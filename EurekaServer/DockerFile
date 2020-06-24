@@ -1,0 +1,8 @@
+#FROM tomcat:8.5.47-jdk8-openjdk
+FROM tomcat:8.5.16-jre8-alpine
+MAINTAINER "Suraj"
+# It is just kind of documentation which tell image user that application internally runs on port 8761. It does not mean that it publishes the port
+EXPOSE 8761 
+
+COPY ./target/EurekaServer-0.0.1-SNAPSHOT.jar    Eureka.jar 
+CMD ["java","-jar","Eureka.jar"]
